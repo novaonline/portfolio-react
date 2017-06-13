@@ -11,6 +11,7 @@ const LanguageList = ({ language, handleTitle }) => (
 )
 LanguageList.propTypes = {
   language: PropTypes.string.isRequired,
+  handleTitle: PropTypes.func.isRequired,
 }
 
 export default LanguageList

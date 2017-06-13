@@ -28,8 +28,11 @@ const InterestAndAbilities = () => (
               Advanced Software engineering, Database,
               and competitions like the HackathonRegina2014.
               Check out my&nbsp;
-              <a href='https://onedrive.live.com/redir?resid=D089BA0640A02804!67191&amp;authkey=!ANlLBx7DDfQNa2k&amp;ithint=folder%2c'>
+              {/* eslint-disable max-len */}
+                <a
+                  href='https://onedrive.live.com/redir?resid=D089BA0640A02804!67191&amp;authkey=!ANlLBx7DDfQNa2k&amp;ithint=folder%2c'>
               Shared Projects</a>&nbsp;for Presentations and Reports for class projects.</p>
+              {/* eslint-enable max-len */}
               <h2>Organization</h2>
               <p>I use Microsoft Office on a daily basis.
               It keeps me organized.
@@ -43,7 +46,9 @@ const InterestAndAbilities = () => (
               It also helps me separate the interface from the content (exactly like how this page was made).</p>
               <h2>Security & Saftey</h2>
               <p>Information Security
-              (<a href='http://ocw.usask.ca/AR/CMPT/352/' /><a href='http://ocw.usask.ca/AR/CMPT/352/' /><a href='http://ocw.usask.ca/AR/CMPT/352/'>CMPT 352</a>)
+              (<a href='http://ocw.usask.ca/AR/CMPT/352/' />
+                <a href='http://ocw.usask.ca/AR/CMPT/352/' />
+                <a href='http://ocw.usask.ca/AR/CMPT/352/'>CMPT 352</a>)
               is a recent interest. It's constantly on my mind as I code.
               I've taken a class in Information Security and have peers that are big on Security and hacking issues.
               I learn a lot from them. Recently, I've worked on overthewire.org/wargames/natas/ problems.

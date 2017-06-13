@@ -43,7 +43,18 @@ const EducationView = () => (
                 Even if I did, it was not offered that year.
                 One thing I'd like to do in my spare time is to read about compilers.
                 I believe that will help me become a better programmer.</p>
-                <p>Advanced Software Engineering (<a href='http://ocw.usask.ca/AR/CMPT/470/' /><a href='http://ocw.usask.ca/AR/CMPT/470/' /><a href='http://ocw.usask.ca/AR/CMPT/470/'>CMPT 470</a>) was a class that actually had me thinking about an interesting trade-off between program performance and code readability/code smells. Information Security (<a href='http://ocw.usask.ca/AR/CMPT/352/' /><a href='http://ocw.usask.ca/AR/CMPT/352/' /><a href='http://ocw.usask.ca/AR/CMPT/352/'>CMPT 352</a>) also presented another trade-off between security and code readability/code smells. This paragraph may not make sense at all, and I apologise for it. This is still a topic I have not researched about in details yet, so I'll leave it at that. During that class, I thought about how code readability</p>
+                <p>Advanced Software Engineering (<a href='http://ocw.usask.ca/AR/CMPT/470/' />
+                  <a href='http://ocw.usask.ca/AR/CMPT/470/' />
+                  <a href='http://ocw.usask.ca/AR/CMPT/470/'>CMPT 470</a>)
+                was a class that actually had me thinking about an interesting trade-off between program performance
+                and code readability/code smells. Information Security
+                (<a href='http://ocw.usask.ca/AR/CMPT/352/' />
+                  <a href='http://ocw.usask.ca/AR/CMPT/352/' />
+                  <a href='http://ocw.usask.ca/AR/CMPT/352/'>CMPT 352</a>)
+                also presented another trade-off between security and code readability/code smells.
+                This paragraph may not make sense at all, and I apologise for it.
+                This is still a topic I have not researched about in details yet, so I'll leave it at that.
+                During that class, I thought about how code readability</p>
               </div>
             </section>
             <section>
