@@ -5,8 +5,17 @@ const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
 const compress = require('compression')
-
+const request = require('request')
 const app = express()
+app.route('/api/content/:id')
+  .get((req, res) => {
+    request('http://equagraineapi.azurewebsites.net/api/Content/' + req.params.id, (error, response, body) => {
+      if (error) {
+        logger.error(error)
+      }
+      res.json(body)
+    })
+  })
 app.use(compress())
 
 // ------------------------------------
@@ -17,13 +26,13 @@ if (project.env === 'development') {
 
   logger.info('Enabling webpack development and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath  : webpackConfig.output.publicPath,
-    contentBase : path.resolve(project.basePath, project.srcDir),
-    hot         : true,
-    quiet       : false,
-    noInfo      : false,
-    lazy        : false,
-    stats       : 'normal',
+    publicPath: webpackConfig.output.publicPath,
+    contentBase: path.resolve(project.basePath, project.srcDir),
+    hot: true,
+    quiet: false,
+    noInfo: false,
+    lazy: false,
+    stats: 'normal',
   }))
   app.use(require('webpack-hot-middleware')(compiler, {
     path: '/__webpack_hmr'

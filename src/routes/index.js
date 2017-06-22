@@ -19,11 +19,11 @@ export const createRoutes = (store) => ({
   childRoutes : [
     CounterRoute(store),
     // LanguagesRoute(store),
-    EducationComponent,
-    InterestComponent,
+    EducationComponent(store),
+    InterestComponent(store),
     ExperienceComponent,
     ProjectsComponent,
-    ContactComponent,
+    ContactComponent(store),
   ]
 })
 

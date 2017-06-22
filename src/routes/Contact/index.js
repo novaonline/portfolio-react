@@ -1,7 +1,14 @@
-import ContactView from './components/ContactView'
+import { injectReducer } from '../../store/reducers'
 
 // Sync route definition
-export default {
+export default (store) => ({
   path: 'contact',
-  component : ContactView,
-}
+  getComponent (nextState, next) {
+    require.ensure([], (require) => {
+      const Contact = require('./containers/ContactContainer').default
+      const reducer = require('./modules/contact').default
+      injectReducer(store, { key: 'contactContent', reducer })
+      next(null, Contact)
+    }, 'contact')
+  },
+})
