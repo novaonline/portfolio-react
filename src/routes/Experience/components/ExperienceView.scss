@@ -1,0 +1,9 @@
+.animatedCard-enter {
+animation-name: zoomIn;
+animation-duration: 250ms;
+}
+
+.animatedCard-leave {
+  animation-name: zoomOut;
+  animation-duration: 250ms;
+}

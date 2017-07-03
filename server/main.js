@@ -7,9 +7,28 @@ const project = require('../project.config')
 const compress = require('compression')
 const request = require('request')
 const app = express()
+
 app.route('/api/content/:id')
   .get((req, res) => {
     request('http://equagraineapi.azurewebsites.net/api/Content/' + req.params.id, (error, response, body) => {
+      if (error) {
+        logger.error(error)
+      }
+      res.json(body)
+    })
+  })
+app.route('/api/languages')
+  .get((req, res) => {
+    request('http://equagraineapi.azurewebsites.net/api/languages/', (error, response, body) => {
+      if (error) {
+        logger.error(error)
+      }
+      res.json(body)
+    })
+  })
+app.route('/api/frameworks')
+  .get((req, res) => {
+    request('http://equagraineapi.azurewebsites.net/api/frameworks/', (error, response, body) => {
       if (error) {
         logger.error(error)
       }
@@ -54,6 +73,7 @@ if (project.env === 'development') {
         return next(err)
       }
       res.set('content-type', 'text/html')
+      // todo. use handlebars to generate the html
       res.send(result)
       res.end()
     })

@@ -1,13 +1,15 @@
 import React from 'react'
 import './HomeView.scss'
-import { Button } from 'reactstrap'
-import { Link } from 'react-router'
+import { Container, Row, Col } from 'reactstrap'
+import PaginationItems from '../../../components/shared/PaginationItems'
+import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
 
 export const HomeView = () => (
   <div>
-    <div className='container'>
-      <div className='row'>
-        <div className='col-sm-12'>
+    <ScrollToTop />
+    <Container>
+      <Row>
+        <Col sm='12'>
           <section className='content'>
             <h2>Hello, my name is Emmanuel</h2>
             <p>
@@ -28,14 +30,12 @@ export const HomeView = () => (
               If you have the time, check out the pages.
             </p>
             <div className='text-center'>
-              <Link to='/interests'>
-                <Button color='link'>Interests &raquo;</Button>
-              </Link>
+              <PaginationItems nextLink='/experiences' />
             </div>
           </section>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   </div>
 )
 

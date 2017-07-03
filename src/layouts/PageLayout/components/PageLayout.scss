@@ -40,3 +40,77 @@ h2{
   margin-bottom: 10px;
   margin-top: 30px;
 }
+
+
+.input-styled .input{
+  background-color: transparent;
+  border: none;
+  color: #FFF;
+  box-sizing: border-box;
+  font-size: 24px;
+  max-width: 250px;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+.input-styled .input::-webkit-input-placeholder {
+  color: #AAA;
+  }
+
+.input-styled .input:focus::-webkit-input-placeholder {
+  color:transparent;
+  }
+
+.name-prompt{
+  margin-top:-75px;
+}
+
+.name-prompt h2 {
+  margin-top:0;
+}
+
+.animatedContent-enter {
+  opacity: 0.01;
+}
+
+.animatedContent-enter.animatedContent-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.animatedContent-leave {
+  opacity: 1;
+}
+
+.animatedContent-leave.animatedContent-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.loading-enter {
+  opacity: 0.01;
+}
+
+.loading-enter.loading-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.namePrompt-enter{
+  opacity: 0.01;
+}
+.namePrompt-enter.namePrompt-enter-active{
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.animatedContent-leave {
+  display: none;
+}
+
+.smooth {
+  transition: all 250ms;
+}
+

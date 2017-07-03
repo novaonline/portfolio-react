@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { toggle } from '../modules/page-layout'
-
+import { toggle, toggleOnNavClick, submitName } from '../modules/page-layout'
+import { withRouter } from 'react-router'
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
@@ -16,22 +16,26 @@ import PageLayout from '../components/PageLayout'
 // HERO Mappers
 // ------------------------------------
 const HERO_MAPPERS = {
-  '/': { image:'https://homepage.usask.ca/~eeq488/images/victoria-bridge.jpg', text:'Introduction' },
-  '/interests': { image:'https://homepage.usask.ca/~eeq488/images/storm-mirror.jpg', text:'Interests' },
-  '/education': { image:'https://homepage.usask.ca/~eeq488/images/salty-bets.jpg', text:'Education' },
+  '/': { image: 'https://homepage.usask.ca/~eeq488/images/victoria-bridge.jpg', text: 'Introduction' },
+  '/interests': { image: 'https://homepage.usask.ca/~eeq488/images/storm-mirror.jpg', text: 'Interests' },
+  '/education': { image: 'https://homepage.usask.ca/~eeq488/images/salty-bets.jpg', text: 'Education' },
   '/experiences': { image: 'https://homepage.usask.ca/~eeq488/images/storm.jpg', text: 'Experiences' },
   '/projects': { image: 'http://homepage.usask.ca/~eeq488/images/bridge.jpg', text: 'Projects' },
-  '/contact': { image: 'http://homepage.usask.ca/~eeq488/images/storm.jpg', text: 'Contact' },
+  '/contact': { image: 'http://homepage.usask.ca/~eeq488/images/storm.jpg', text: 'Summary' },
 }
 
 const mapDispatchToProps = {
-  toggle
+  toggle,
+  toggleOnNavClick,
+  submitName,
 }
 
 const mapStateToProps = (state) => ({
-  isOpen : state.layout.isOpen,
+  isOpen: state.layout.isOpen,
   heroBackground: HERO_MAPPERS[state.location.pathname].image,
   heroText: HERO_MAPPERS[state.location.pathname].text,
+  pathName: state.location.pathname,
+  name: state.layout.name,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
@@ -48,4 +52,4 @@ const mapStateToProps = (state) => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageLayout)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PageLayout))

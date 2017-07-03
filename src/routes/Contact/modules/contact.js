@@ -1,4 +1,5 @@
 import request from 'superagent'
+import { getFromLocalStorage, saveToLocalStorage, CONTACT } from '../../../utilities/postActions/localStorage'
 
 // create actions
 export const FETCH_CONTACT_REQUEST = 'FETCH_CONTACT_REQUEST'
@@ -65,12 +66,18 @@ const ACTION_HANDLERS_MAPPING = {
 }
 
 // initial state
-const initialState = {
+let initialState = {
   isFetching: true,
   data: null,
+}
+const storage = getFromLocalStorage(CONTACT)
+if (storage) {
+  initialState = storage
 }
 // create the contact reducer
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLERS_MAPPING[action.type]
-  return handler ? handler(state, action) : state
+  const result = handler ? handler(state, action) : state
+  saveToLocalStorage(CONTACT, result)
+  return result
 }

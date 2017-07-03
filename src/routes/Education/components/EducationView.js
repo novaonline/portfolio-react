@@ -1,21 +1,28 @@
 import React, { Component } from 'react'
+import { Container, Row, Col } from 'reactstrap'
 import './EducationView.scss'
-import { Button } from 'reactstrap'
-import { Link } from 'react-router'
 import PropTypes from 'prop-types'
+import PaginationItems from '../../../components/shared/PaginationItems'
+import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
+import Loading from '../../../components/shared/Loading'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class EducationView extends Component {
   componentDidMount = () => !this.props.educationContent && this.props.fetchEducation()
   render = () => {
-    const { isFetching, educationContent, fetchEducation } = this.props
+    const { isFetching, educationContent } = this.props
     return (
-      <div>
-        {isFetching && (<div>Loading...</div>)}
-        {!isFetching &&
-          (
-            <div onClick={fetchEducation} className='container'>
-              <div className='row'>
-                <div className='col-sm-12'>
+      <Container>
+        <ScrollToTop />
+        <Row>
+          <Col sm='12'>
+            <ReactCSSTransitionGroup transitionName='animatedContent'
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {isFetching && (<Loading />)}
+              {!isFetching &&
+                (
+
                   <div id={educationContent.htmlId} className='content'>
                     {educationContent.sections.map(section => (
                       <section key={section.id}>
@@ -23,20 +30,18 @@ class EducationView extends Component {
                         <div className='body' dangerouslySetInnerHTML={{ __html: section.info.body }} />
                       </section>
                     ))}
-                    <div className='text-center'>
-                      <Link to='/interests'>
-                        <Button color='link'>&laquo; Interests</Button>
-                      </Link>
-                      <Link to='/experiences'>
-                        <Button color='link'>Experience &raquo;</Button>
-                      </Link>
-                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
-      </div>
+
+                )}
+            </ReactCSSTransitionGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <PaginationItems prevLink='/interests' nextLink='/contact' />
+          </Col>
+        </Row>
+      </Container>
     )
   }
 }

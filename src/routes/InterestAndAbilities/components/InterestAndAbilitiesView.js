@@ -1,40 +1,45 @@
 import React, { Component } from 'react'
+import { Container, Row, Col } from 'reactstrap'
 import './InterestAndAbilitiesView.scss'
-import { Button } from 'reactstrap'
-import { Link } from 'react-router'
 import { PropTypes } from 'prop-types'
+import PaginationItems from '../../../components/shared/PaginationItems'
+import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
+import Loading from '../../../components/shared/Loading'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class InterestAndAbilities extends Component {
   componentDidMount = () => !this.props.data && this.props.fetchInterestAsync()
   render = () => {
-    const { isFetching, data, fetchInterestAsync } = this.props
+    const { isFetching, data } = this.props
     return (
-      <div onClick={fetchInterestAsync}>
-        {isFetching && (<div>Loading...</div>)}
-        {!isFetching && (
-          <div className='container'>
-            <div className='row'>
-              <div className='col-sm-12'>
-                <div id={data.htmlId} className='content'>
-                  {data.sections.map(section => (
-                    <section key={section.id}>
-                      <h2>{section.info.meta}</h2>
-                      <div dangerouslySetInnerHTML={{ __html: section.info.body }} />
-                    </section>
-                  ))}
-                </div>
-                <div className='text-center'>
-                  <Link to='/'>
-                    <Button color='link'>&laquo; Introduction</Button>
-                  </Link>
-                  <Link to='/education'>
-                    <Button color='link'>Education &raquo;</Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+      <div>
+        <ScrollToTop />
+        <Container>
+          <Row>
+            <Col>
+              <ReactCSSTransitionGroup transitionName='animatedContent'
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}>
+                {isFetching && (<Loading />)}
+                {!isFetching && (
+                  <div id={data.htmlId} className='content'>
+                    {data.sections.map(section => (
+                      <section key={section.id}>
+                        <h2>{section.info.meta}</h2>
+                        <div dangerouslySetInnerHTML={{ __html: section.info.body }} />
+                      </section>
+                    ))}
+                  </div>
+                )}
+              </ReactCSSTransitionGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <PaginationItems prevLink='/experiences' nextLink='/education' />
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }

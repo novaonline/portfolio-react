@@ -2,9 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
 import './styles/main.scss'
+// import { storageAvailable, LOCAL_STORAGE, INIT_STATE } from './utilities/postActions/saveToLocalStorage'
 
 // Store Initialization
 // ------------------------------------
+// if (window.__INITIAL_STATE__) {
+
+// } else if (storageAvailable(LOCAL_STORAGE)) {
+//   window.__INITIAL_STATE__ = JSON.parse(localStorage.getItem(INIT_STATE)) || {}
+// }
 const store = createStore(window.__INITIAL_STATE__)
 
 // Render Setup
@@ -46,10 +52,10 @@ if (__DEV__) {
       './components/App',
       './routes/index',
     ], () =>
-      setImmediate(() => {
-        ReactDOM.unmountComponentAtNode(MOUNT_NODE)
-        render()
-      })
+        setImmediate(() => {
+          ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+          render()
+        })
     )
   }
 }

@@ -1,4 +1,6 @@
 import req from 'superagent'
+import { getFromLocalStorage, saveToLocalStorage, INTERESTS } from '../../../utilities/postActions/localStorage'
+
 // create actions
 export const FETCH_INTEREST_PENDING = 'FETCH_INTEREST_PENDING'
 export const FETCH_INTEREST_SUCCESSFUL = 'FETCH_INTEREST_SUCCESSFUL'
@@ -59,11 +61,17 @@ const ACTION_HANDLER_MAPPING = {
   })
 }
 
-const initialState = {
+let initialState = {
   isFetching: true,
   data: null,
 }
+const storage = getFromLocalStorage(INTERESTS)
+if (storage) {
+  initialState = storage
+}
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLER_MAPPING[action.type]
-  return handler ? handler(state, action) : state
+  const result = handler ? handler(state, action) : state
+  saveToLocalStorage(INTERESTS, result)
+  return result
 }
