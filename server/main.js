@@ -73,7 +73,6 @@ if (project.env === 'development') {
         return next(err)
       }
       res.set('content-type', 'text/html')
-      // todo. use handlebars to generate the html
       res.send(result)
       res.end()
     })
