@@ -14,7 +14,8 @@ export class PageLayout extends Component {
     this.props.submitName(this.state.inputName)
   }
   render = () => {
-    const { isOpen, heroBackground, heroText, toggle, toggleOnNavClick, children, pathName, name, clearName, } = this.props
+    const { isOpen, heroBackground, heroText, toggle,
+      toggleOnNavClick, children, pathName, name, clearName, } = this.props
     return (
       <div>
         <NavigationBar isOpen={isOpen} toggle={toggle} toggleOnNavClick={toggleOnNavClick} />

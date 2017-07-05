@@ -31,11 +31,11 @@ export const receiveLanguage = (json) => ({
 export const fetchLanguagesAsync = () => {
   return (dispatch, getState) => {
     dispatch(requestLanguage())
-    return request('/api/languages', (error, response) => {
+    return request('http://equagraineapi.azurewebsites.net/api/languages', (error, response) => {
       if (error) {
         dispatch(sendError(error))
       } else {
-        var data = JSON.parse(response.body)
+        var data = response.body
         var storeData = {}
         if (data) {
           data.forEach((element) => {

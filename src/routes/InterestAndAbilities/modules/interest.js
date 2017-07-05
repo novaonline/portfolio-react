@@ -29,11 +29,11 @@ export const fetchInterestAsync = () => {
   return (dispatch) => {
     dispatch(requestInterest())
     return (
-      req('/api/content/3').end((err, res) => {
+      req('http://equagraineapi.azurewebsites.net/api/Content/3').end((err, res) => {
         if (err) {
           dispatch(sendError(err))
         }
-        var allData = JSON.parse(res.body)
+        var allData = res.body
         var data = allData
         dispatch(receiveInterest(data))
       })

@@ -33,11 +33,11 @@ export const receiveContact = (json) => {
 export const fetchContactAsync = () => {
   return (dispatch) => {
     dispatch(requestContact())
-    return request('/api/content/6').end((err, res) => {
+    return request('http://equagraineapi.azurewebsites.net/api/Content/6').end((err, res) => {
       if (err) {
         dispatch(sendError(err))
       }
-      const allData = JSON.parse(res.body)
+      const allData = res.body
       const data = allData
       dispatch(receiveContact(data))
     })

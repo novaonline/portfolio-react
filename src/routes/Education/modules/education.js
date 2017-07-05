@@ -28,12 +28,12 @@ export const fetchEducation = () => {
   return (dispatch) => {
     dispatch(requestEducation())
     return new Promise((resolve) => {
-      request.get('/api/content/2').end((error, response) => {
+      request.get('http://equagraineapi.azurewebsites.net/api/Content/2').end((error, response) => {
         if (error) {
           dispatch(sendError(error))
           console.error(error)
         }
-        const data = JSON.parse(response.body)
+        const data = response.body
         const resp = data
         dispatch(receiveEducation(resp))
       })

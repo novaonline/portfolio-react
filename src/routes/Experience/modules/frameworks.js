@@ -30,9 +30,9 @@ export const errorSend = (err) => ({
 export const fetchFrameworksAsync = () => { // create helper for api
   return (dispatch, getState) => {
     dispatch(requestFramework())
-    return request('/api/frameworks', (err, res) => {
+    return request('http://equagraineapi.azurewebsites.net/api/frameworks', (err, res) => {
       if (err) dispatch(errorSend(err))
-      else dispatch(receiveFramework(JSON.parse(res.body)))
+      else dispatch(receiveFramework(res.body))
     })
   }
 }
