@@ -5,6 +5,7 @@ import './Animate.scss'
 import NavigationBar from './NavigationBar'
 import { Container, Row, Col } from 'reactstrap'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { clearFromLocalStorage } from '../../../utilities/postActions/localStorage'
 
 export class PageLayout extends Component {
   inputChange = (e) => this.setState({ inputName: e.target.value })
@@ -21,6 +22,9 @@ export class PageLayout extends Component {
         <NavigationBar isOpen={isOpen} toggle={toggle} toggleOnNavClick={toggleOnNavClick} />
         <div className='page-layout__viewport'>
           <div className='hero' style={{ backgroundImage: `url(${heroBackground})` }}>
+            <div className='debug-buttons float-right inverse p-3'>
+              <span onClick={clearFromLocalStorage} role='button'>Reset All</span>
+            </div>
             <div className='hero-content'>
               <h1 className='hero-header inverse text-center'>
                 {heroText}
@@ -46,16 +50,16 @@ export class PageLayout extends Component {
                   </Container>
                 )}
                 {
-                pathName === '/' && name && (
-                  <Container className='name-prompt'>
-                    <Row>
-                      <Col>
-                        <h2 onClick={clearName} className='inverse text-center'>Hello {name}</h2>
-                      </Col>
-                    </Row>
-                  </Container>
-                )
-              }
+                  pathName === '/' && name && (
+                    <Container className='name-prompt'>
+                      <Row>
+                        <Col>
+                          <h2 onClick={clearName} className='inverse text-center'>Hello {name}</h2>
+                        </Col>
+                      </Row>
+                    </Container>
+                  )
+                }
               </ReactCSSTransitionGroup>
             </div>
           </div>

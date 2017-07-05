@@ -114,3 +114,12 @@ h2{
   transition: all 250ms;
 }
 
+.debug-buttons {
+  opacity: .10;
+  transition: opacity 0.2s ease
+}
+
+.debug-buttons:hover {
+  opacity: .50;
+  transition: opacity 0.2s ease
+}

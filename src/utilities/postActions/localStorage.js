@@ -25,6 +25,22 @@ export const getFromLocalStorage = (key) => {
     return null
   }
 }
+
+export const clearFromLocalStorage = () => {
+  // quick helper for beta phase
+  if (storageAvailable(LOCAL_STORAGE)) {
+    localStorage.removeItem(EDUCATION)
+    localStorage.removeItem(EXPERIENCE_FRAMEWORKS)
+    localStorage.removeItem(EXPERIENCE_HIGHLIGHTED)
+    localStorage.removeItem(EXPERIENCE_LANGUAGE)
+    localStorage.removeItem(EXPERIENCE_RANKS)
+    localStorage.removeItem(LAYOUT)
+    localStorage.removeItem(CONTACT)
+    localStorage.removeItem(INTERESTS)
+    window.location.reload()
+  }
+}
+
 export const storageAvailable = (type) => {
   const storage = window[type]
   try {
