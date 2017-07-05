@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import CardItem from '../../Experience/components/CardItem'
 import { cardItemPropType } from '../../../utilities/propTypes'
 import PaginationItems from '../../../components/shared/PaginationItems'
+import LastUpdatedMuteText from '../../../components/shared/LastUpdatedMuteText'
+import ErrorAlert from '../../../components/shared/ErrorAlert'
 import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
 import Loading from '../../../components/shared/Loading'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -12,10 +14,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class ContactView extends Component {
   componentDidMount = () => !this.props.data && this.props.fetchContactAsync()
   render = () => {
-    const { data, isFetching, fetchContactAsync, name, highlightedComponents } = this.props
+    const { data, isFetching, fetchContactAsync, name, highlightedComponents, error, lastUpdated } = this.props
     return (
       <Container>
         <ScrollToTop />
+        <ErrorAlert error={error} />
         {highlightedComponents.length > 0 && (
           <Row>
             <Col>
@@ -41,7 +44,7 @@ class ContactView extends Component {
               {!isFetching && (
                 <div>
                   <div key={`section_html_contact`} className='content'>
-                    {data.sections.map(section => (
+                    {data && (data.sections).map(section => (
                       <section key={`section_${section.id}`}>
                         <h2>{section.info.meta}</h2>
                         <div dangerouslySetInnerHTML={{ __html: section.info.body }} />
@@ -53,11 +56,8 @@ class ContactView extends Component {
             </ReactCSSTransitionGroup>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <PaginationItems prevLink='/education' />
-          </Col>
-        </Row>
+        <LastUpdatedMuteText lastUpdated={lastUpdated} refreshTrigger={fetchContactAsync} />
+        <PaginationItems prevLink='/education' />
       </Container>
     )
   }
@@ -79,6 +79,8 @@ ContactView.propTypes = {
   fetchContactAsync: PropTypes.func.isRequired,
   name: PropTypes.string,
   highlightedComponents: cardItemPropType,
+  error: PropTypes.object,
+  lastUpdated: PropTypes.number,
 }
 
 ContactView.defaultProps = {
@@ -87,6 +89,8 @@ ContactView.defaultProps = {
   fetchContactAsync: () => { },
   name: 'guest',
   highlightedComponents: [],
+  error: null,
+  sections: [],
 }
 
 export default ContactView

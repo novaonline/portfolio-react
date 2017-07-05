@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   Card, CardImg, CardTitle,
-  CardSubtitle, CardBlock
+  CardSubtitle, CardBlock,
+  CardText
 } from 'reactstrap'
 
 const CardItem = ({ item, toggleSelectionAsync, groupName }) => (
@@ -19,6 +20,7 @@ const CardItem = ({ item, toggleSelectionAsync, groupName }) => (
     <CardBlock>
       <CardTitle>{item.title}</CardTitle>
       <CardSubtitle>Rank {item.rank.id}</CardSubtitle>
+      <CardText>{item.rank && item.rank.info && item.rank.info.description}</CardText>
     </CardBlock>
   </Card>
 )

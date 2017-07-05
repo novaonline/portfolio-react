@@ -3,6 +3,8 @@ import { Container, Row, Col } from 'reactstrap'
 import './EducationView.scss'
 import PropTypes from 'prop-types'
 import PaginationItems from '../../../components/shared/PaginationItems'
+import LastUpdatedMuteText from '../../../components/shared/LastUpdatedMuteText'
+import ErrorAlert from '../../../components/shared/ErrorAlert'
 import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
 import Loading from '../../../components/shared/Loading'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -10,17 +12,18 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class EducationView extends Component {
   componentDidMount = () => !this.props.educationContent && this.props.fetchEducation()
   render = () => {
-    const { isFetching, educationContent } = this.props
+    const { isFetching, educationContent, error, lastUpdated } = this.props
     return (
       <Container>
         <ScrollToTop />
+        <ErrorAlert error={error} />
         <Row>
           <Col sm='12'>
             <ReactCSSTransitionGroup transitionName='animatedContent'
               transitionEnterTimeout={500}
               transitionLeaveTimeout={300}>
               {isFetching && (<Loading />)}
-              {!isFetching &&
+              {!isFetching && educationContent &&
                 (
 
                   <div id={educationContent.htmlId} className='content'>
@@ -36,11 +39,8 @@ class EducationView extends Component {
             </ReactCSSTransitionGroup>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <PaginationItems prevLink='/interests' nextLink='/contact' />
-          </Col>
-        </Row>
+        <LastUpdatedMuteText lastUpdated={lastUpdated} refreshTrigger={this.props.fetchEducation} />
+        <PaginationItems prevLink='/interests' nextLink='/contact' />
       </Container>
     )
   }
@@ -63,6 +63,8 @@ EducationView.propTypes = {
     ),
   }),
   fetchEducation: PropTypes.func.isRequired,
+  error: PropTypes.object,
+  lastUpdated: PropTypes.number,
 }
 
 EducationView.defaultProps = {

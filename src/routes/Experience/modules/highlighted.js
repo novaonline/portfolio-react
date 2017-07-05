@@ -4,9 +4,12 @@ import {
   EXPERIENCE_HIGHLIGHTED,
 }
   from '../../../utilities/postActions/localStorage'
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 
 export const SELECT_EXPERIENCE = 'SELECT_EXPERIENCE'
 export const DESELECT_EXPERIENCE = 'DESELECT_EXPERIENCE'
+export const SHOW_HELPER = 'SHOW_HELPER'
+export const HIDE_HELPER = 'HIDE_HELPER'
 
 const selectExperience = (id, groupName) => ({
   type: SELECT_EXPERIENCE,
@@ -28,6 +31,24 @@ export const toggleSelectionAsync = (id, groupName) => {
     }
   }
 }
+export const showHelper = () => ({
+  type: SHOW_HELPER,
+  visibility: true,
+})
+export const hideHelper = () => ({
+  type: HIDE_HELPER,
+  visibility: false,
+})
+export const toggleHelper = () => {
+  return (dispatch, getState) => {
+    const selectedData = getState().highlightedExperiences.showHelper
+    if (selectedData) {
+      dispatch(hideHelper())
+    } else {
+      dispatch(showHelper())
+    }
+  }
+}
 const ACTION_HANDLERS = {
   [SELECT_EXPERIENCE]: (state, action) => { // is this state a clone already?
     const data = Object.assign({}, state.data)
@@ -46,11 +67,18 @@ const ACTION_HANDLERS = {
         data: data,
       })
     )
-  }
+  },
+  [SHOW_HELPER]: (state, action) => Object.assign({}, state, {
+    showHelper: action.visibility
+  }),
+  [HIDE_HELPER]: (state, action) => Object.assign({}, state, {
+    showHelper: action.visibility
+  }),
 }
 
 let initialState = {
-  data: []
+  data: [],
+  showHelper: true,
 }
 const storage = getFromLocalStorage(EXPERIENCE_HIGHLIGHTED)
 if (storage) { // NOTE: this is dependant on other data
@@ -59,6 +87,8 @@ if (storage) { // NOTE: this is dependant on other data
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLERS[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(EXPERIENCE_HIGHLIGHTED, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(EXPERIENCE_HIGHLIGHTED, result)
+  }
   return result
 }

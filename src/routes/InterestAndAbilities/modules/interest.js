@@ -1,5 +1,6 @@
 import req from 'superagent'
 import { getFromLocalStorage, saveToLocalStorage, INTERESTS } from '../../../utilities/postActions/localStorage'
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 
 // create actions
 export const FETCH_INTEREST_PENDING = 'FETCH_INTEREST_PENDING'
@@ -49,6 +50,7 @@ export const actions = {
 const ACTION_HANDLER_MAPPING = {
   [FETCH_INTEREST_PENDING]: (state, action) => Object.assign({}, state, {
     isFetching: true,
+    error: null,
   }),
   [FETCH_INTEREST_FAILURE]: (state, action) => Object.assign({}, state, {
     isFetching: false,
@@ -56,6 +58,7 @@ const ACTION_HANDLER_MAPPING = {
   }),
   [FETCH_INTEREST_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isFetching: false,
+    error: null,
     data: action.data,
     lastUpdated: action.receiveAt,
   })
@@ -63,6 +66,7 @@ const ACTION_HANDLER_MAPPING = {
 
 let initialState = {
   isFetching: true,
+  error: null,
   data: null,
 }
 const storage = getFromLocalStorage(INTERESTS)
@@ -72,6 +76,8 @@ if (storage) {
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLER_MAPPING[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(INTERESTS, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(INTERESTS, result)
+  }
   return result
 }

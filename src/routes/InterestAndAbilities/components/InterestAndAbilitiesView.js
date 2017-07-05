@@ -3,6 +3,8 @@ import { Container, Row, Col } from 'reactstrap'
 import './InterestAndAbilitiesView.scss'
 import { PropTypes } from 'prop-types'
 import PaginationItems from '../../../components/shared/PaginationItems'
+import LastUpdatedMuteText from '../../../components/shared/LastUpdatedMuteText'
+import ErrorAlert from '../../../components/shared/ErrorAlert'
 import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
 import Loading from '../../../components/shared/Loading'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -10,18 +12,19 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class InterestAndAbilities extends Component {
   componentDidMount = () => !this.props.data && this.props.fetchInterestAsync()
   render = () => {
-    const { isFetching, data } = this.props
+    const { isFetching, data, error, lastUpdated, fetchInterestAsync } = this.props
     return (
       <div>
         <ScrollToTop />
         <Container>
+          <ErrorAlert error={error} />
           <Row>
             <Col>
               <ReactCSSTransitionGroup transitionName='animatedContent'
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}>
                 {isFetching && (<Loading />)}
-                {!isFetching && (
+                {!isFetching && data && (
                   <div id={data.htmlId} className='content'>
                     {data.sections.map(section => (
                       <section key={section.id}>
@@ -34,11 +37,8 @@ class InterestAndAbilities extends Component {
               </ReactCSSTransitionGroup>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <PaginationItems prevLink='/experiences' nextLink='/education' />
-            </Col>
-          </Row>
+          <LastUpdatedMuteText refreshTrigger={fetchInterestAsync} lastUpdated={lastUpdated} />
+          <PaginationItems prevLink='/experiences' nextLink='/education' />
         </Container>
       </div>
     )
@@ -63,6 +63,8 @@ InterestAndAbilities.propTypes = {
     ),
   }),
   fetchInterestAsync: PropTypes.func.isRequired,
+  error: PropTypes.object,
+  lastUpdated: PropTypes.number,
 }
 
 InterestAndAbilities.defaultProps = {

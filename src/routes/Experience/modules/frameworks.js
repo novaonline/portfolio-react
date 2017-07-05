@@ -5,6 +5,7 @@ import {
   EXPERIENCE_FRAMEWORKS,
 }
   from '../../../utilities/postActions/localStorage'
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 
 export const FETCH_FRAMEWORK_REQUEST = 'FETCH_FRAMEWORK_REQUEST'
 export const FETCH_FRAMEWORK_FAILURE = 'FETCH_FRAMEWORK_FAILURE'
@@ -31,7 +32,7 @@ export const fetchFrameworksAsync = () => { // create helper for api
     dispatch(requestFramework())
     return request('/api/frameworks', (err, res) => {
       if (err) dispatch(errorSend(err))
-      dispatch(receiveFramework(JSON.parse(res.body)))
+      else dispatch(receiveFramework(JSON.parse(res.body)))
     })
   }
 }
@@ -72,6 +73,7 @@ export const queryFrameworks = (e) => { // create helper for queries
 const ACTION_HANDLERS = {
   [FETCH_FRAMEWORK_REQUEST]: (state, action) => Object.assign({}, state, {
     isFetching: true,
+    error: null,
   }),
   [FETCH_FRAMEWORK_FAILURE]: (state, action) => Object.assign({}, state, {
     isFetching: false,
@@ -79,29 +81,35 @@ const ACTION_HANDLERS = {
   }),
   [FETCH_FRAMEWORK_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isFetching: false,
+    error: null,
     data: action.data,
     lastUpdated: action.receivedAt,
   }),
   [QUERY_FRAMEWORK_REQUEST]: (state, action) => ({
     ...state,
     ...{
-      isQuerying: true, searchTerm: action.searchTerm,
+      isQuerying: true,
+      searchTerm: action.searchTerm,
+      error: null,
     }
   }), // https://github.com/tc39/proposal-object-rest-spread
   [QUERY_FRAMEWORK_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isQuerying: false,
     filteredData: action.data,
     searchTerm: action.searchTerm,
+    error: null,
   }),
   [QUERY_FRAMEWORK_CLEAR]: (state, action) => Object.assign({}, state, {
     isQuerying: false,
     filteredData: action.data,
     searchTerm: action.searchTerm,
+    error: null,
   }),
 }
 let initialState = {
   isFetching: true,
-  data: [],
+  error: null,
+  data: null,
   searchTerm: null,
   isQuerying: false,
   filteredData: null,
@@ -113,6 +121,8 @@ if (storage) {
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLERS[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(EXPERIENCE_FRAMEWORKS, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(EXPERIENCE_FRAMEWORKS, result)
+  }
   return result
 }

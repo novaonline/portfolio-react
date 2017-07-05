@@ -11,6 +11,7 @@ const app = express()
 app.route('/api/content/:id')
   .get((req, res) => {
     request('http://equagraineapi.azurewebsites.net/api/Content/' + req.params.id, (error, response, body) => {
+      res.statusCode = response.statusCode
       if (error) {
         logger.error(error)
       }
@@ -19,7 +20,8 @@ app.route('/api/content/:id')
   })
 app.route('/api/languages')
   .get((req, res) => {
-    request('http://equagraineapi.azurewebsites.net/api/languages/', (error, response, body) => {
+    request('http://equagraineapi.azurewebsites.net/api/languages', (error, response, body) => {
+      res.statusCode = response.statusCode
       if (error) {
         logger.error(error)
       }
@@ -28,7 +30,18 @@ app.route('/api/languages')
   })
 app.route('/api/frameworks')
   .get((req, res) => {
-    request('http://equagraineapi.azurewebsites.net/api/frameworks/', (error, response, body) => {
+    request('http://equagraineapi.azurewebsites.net/api/frameworks', (error, response, body) => {
+      res.statusCode = response.statusCode
+      if (error) {
+        logger.error(error)
+      }
+      res.json(body)
+    })
+  })
+app.route('/api/ranks')
+  .get((req, res) => {
+    request('http://equagraineapi.azurewebsites.net/api/ranks', (error, response, body) => {
+      res.statusCode = response.statusCode
       if (error) {
         logger.error(error)
       }

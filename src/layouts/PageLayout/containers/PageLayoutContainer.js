@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { toggle, toggleOnNavClick, submitName } from '../modules/page-layout'
+import { toggle, toggleOnNavClick, submitName, clearName } from '../modules/page-layout'
 import { withRouter } from 'react-router'
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -28,6 +28,7 @@ const mapDispatchToProps = {
   toggle,
   toggleOnNavClick,
   submitName,
+  clearName,
 }
 
 const mapStateToProps = (state) => ({

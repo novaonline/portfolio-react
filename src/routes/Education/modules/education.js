@@ -1,6 +1,6 @@
 import request from 'superagent'
 import { getFromLocalStorage, saveToLocalStorage, EDUCATION } from '../../../utilities/postActions/localStorage'
-
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 export const FETCH_EDUCATION_REQUEST = 'FETCH_EDUCATION_REQUEST'
 export const FETCH_EDUCATION_FAILURE = 'FETCH_EDUCATION_FAILURE'
 export const FETCH_EDUCATION_SUCCESSFUL = 'FETCH_EDUCATION_SUCCESSFUL'
@@ -10,6 +10,11 @@ export const requestEducation = () => {
     type: FETCH_EDUCATION_REQUEST
   }
 }
+
+export const sendError = (err) => ({
+  type: FETCH_EDUCATION_FAILURE,
+  error: err,
+})
 
 export const receiveEducation = (json) => {
   return {
@@ -25,6 +30,7 @@ export const fetchEducation = () => {
     return new Promise((resolve) => {
       request.get('/api/content/2').end((error, response) => {
         if (error) {
+          dispatch(sendError(error))
           console.error(error)
         }
         const data = JSON.parse(response.body)
@@ -44,17 +50,27 @@ export const actions = {
 
 const ACTION_HANDLERS = {
   [FETCH_EDUCATION_REQUEST]: (state, action) => Object.assign({}, state, {
-    isFetching: true
+    isFetching: true,
+    error: null,
   }),
   [FETCH_EDUCATION_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isFetching: false,
     data: action.data,
+    error: null,
     lastUpdated: action.receivedAt,
   }),
+  [FETCH_EDUCATION_FAILURE]: (state, action) => Object.assign({},
+  state,
+    {
+      isFetching: false,
+      error: action.error,
+    }
+  )
 }
 
 let initialState = {
   isFetching: true,
+  error: null,
   data: null,
 }
 
@@ -66,6 +82,8 @@ if (storage) {
 export default function educationReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(EDUCATION, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(EDUCATION, result)
+  }
   return result
 }

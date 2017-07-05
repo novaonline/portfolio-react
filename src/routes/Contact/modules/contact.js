@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { getFromLocalStorage, saveToLocalStorage, CONTACT } from '../../../utilities/postActions/localStorage'
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 
 // create actions
 export const FETCH_CONTACT_REQUEST = 'FETCH_CONTACT_REQUEST'
@@ -53,6 +54,7 @@ export const actions = {
 const ACTION_HANDLERS_MAPPING = {
   [FETCH_CONTACT_REQUEST]: (state, action) => Object.assign({}, state, {
     isFetching: true,
+    error: null,
   }),
   [FETCH_CONTACT_FAILURE]: (state, action) => Object.assign({}, state, {
     isFetching: false,
@@ -60,6 +62,7 @@ const ACTION_HANDLERS_MAPPING = {
   }),
   [FETCH_CONTACT_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isFetching: false,
+    error: null,
     data: action.contactContent,
     lastUpdated: action.receivedAt,
   }),
@@ -68,6 +71,7 @@ const ACTION_HANDLERS_MAPPING = {
 // initial state
 let initialState = {
   isFetching: true,
+  error: null,
   data: null,
 }
 const storage = getFromLocalStorage(CONTACT)
@@ -78,6 +82,8 @@ if (storage) {
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLERS_MAPPING[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(CONTACT, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(CONTACT, result)
+  }
   return result
 }

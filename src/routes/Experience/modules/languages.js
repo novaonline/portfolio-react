@@ -5,6 +5,7 @@ import {
   EXPERIENCE_LANGUAGE,
 }
   from '../../../utilities/postActions/localStorage'
+import { FAILURE_PATTERN } from '../../../utilities/regexPatterns'
 
 // actions
 export const FETCH_LANGUAGE_REQUEST = 'FETCH_LANGUAGE_REQUEST'
@@ -29,17 +30,20 @@ export const receiveLanguage = (json) => ({
 })
 export const fetchLanguagesAsync = () => {
   return (dispatch, getState) => {
-    dispatch(receiveLanguage())
+    dispatch(requestLanguage())
     return request('/api/languages', (error, response) => {
       if (error) {
         dispatch(sendError(error))
+      } else {
+        var data = JSON.parse(response.body)
+        var storeData = {}
+        if (data) {
+          data.forEach((element) => {
+            storeData['id-' + element.id] = element
+          })
+        }
+        dispatch(receiveLanguage(storeData))
       }
-      var data = JSON.parse(response.body)
-      var storeData = {}
-      data.forEach((element) => {
-        storeData['id-' + element.id] = element
-      })
-      dispatch(receiveLanguage(storeData))
     })
   }
 }
@@ -64,11 +68,13 @@ export const queryLanguages = (e) => {
     const { value } = e.target
     if (value.length > 0) {
       dispatch(queryLanguageRequest(value))
-      const data = getState().languages.data.filter(
-        x => x.title.toLowerCase().includes(
+      const s = getState().languages.data
+      const dataIdx = Object.keys(s).filter(
+        x => s[x].title.toLowerCase().includes(
           value.toLowerCase()
         )
       )
+      const data = dataIdx.map(x => s[x])
       dispatch(queryLanguageReceive(data, value))
     } else {
       dispatch(queryLanguageClear())
@@ -79,6 +85,7 @@ export const queryLanguages = (e) => {
 const ACTION_HANDLER = {
   [FETCH_LANGUAGE_REQUEST]: (state, action) => Object.assign({}, state, {
     isFetching: true,
+    error: null,
   }),
   [FETCH_LANGUAGE_FAILURE]: (state, action) => Object.assign({}, state, {
     isFetching: false,
@@ -86,6 +93,7 @@ const ACTION_HANDLER = {
   }),
   [FETCH_LANGUAGE_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isFetching: false,
+    error: null,
     data: action.data,
     lastUpdated: action.receivedAt,
   }),
@@ -95,17 +103,20 @@ const ACTION_HANDLER = {
   }),
   [QUERY_LANGUAGE_SUCCESSFUL]: (state, action) => Object.assign({}, state, {
     isQuerying: false,
+    error: null,
     filteredData: action.data,
     searchTerm: action.searchTerm,
   }),
   [QUERY_LANGUAGE_CLEAR]: (state, action) => Object.assign({}, state, {
     isQuerying: false,
+    error: null,
     filteredData: action.data,
     searchTerm: action.searchTerm,
   })
 }
 let initialState = {
   isFetching: true,
+  error: null,
   data: null,
   searchTerm: null,
   isQuerying: false,
@@ -118,6 +129,8 @@ if (storage) { // NOTE: this is dependant on other data
 export default (state = initialState, action) => {
   const handler = ACTION_HANDLER[action.type]
   const result = handler ? handler(state, action) : state
-  saveToLocalStorage(EXPERIENCE_LANGUAGE, result)
+  if (!(new RegExp(FAILURE_PATTERN).test(action.type))) {
+    saveToLocalStorage(EXPERIENCE_LANGUAGE, result)
+  }
   return result
 }

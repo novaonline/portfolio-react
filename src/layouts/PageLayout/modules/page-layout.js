@@ -5,6 +5,7 @@ import { getFromLocalStorage, saveToLocalStorage, LAYOUT } from '../../../utilit
 // ------------------------------------
 export const TOGGLE_NAV = 'TOGGLE_NAV'
 export const SUBMIT_NAME = 'SUBMIT_NAME'
+export const CLEAR_NAME = 'CLEAR_NAME'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -33,10 +34,14 @@ export const submitName = (name) => ({
   payload: name,
 })
 
+export const clearName = () => ({
+  type: CLEAR_NAME,
+})
 export const actions = {
   toggle,
   toggleOnNavClick,
   submitName,
+  clearName,
 }
 
 // ------------------------------------
@@ -45,6 +50,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [TOGGLE_NAV]: (state, action) => ({ ...state, isOpen: !action.payload }),
   [SUBMIT_NAME]: (state, action) => ({ ...state, name: action.payload }),
+  [CLEAR_NAME]: (state, action) => ({ ...state, name: null }),
 }
 
 // ------------------------------------
@@ -53,6 +59,7 @@ const ACTION_HANDLERS = {
 let initialState = {
   isOpen: false,
   name: null,
+  error: null,
 }
 const storage = getFromLocalStorage(LAYOUT)
 if (storage) {

@@ -8,6 +8,8 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   data: state.interestContent.data,
   isFetching: state.interestContent.isFetching,
+  error: state.interestContent.error,
+  lastUpdated: state.interestContent.lastUpdated,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InterestAndAbilities)

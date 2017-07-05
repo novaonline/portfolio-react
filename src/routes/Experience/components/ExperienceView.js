@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Form, FormGroup, Input } from 'reactstrap'
+import { Container, Row, Col, Form, FormGroup, Input, Alert } from 'reactstrap'
 import './ExperienceView.scss'
 import PropTypes from 'prop-types'
 import CardGroup from './CardGroup'
 import { cardItemPropType } from '../../../utilities/propTypes'
 import PaginationItems from '../../../components/shared/PaginationItems'
+import LastUpdatedMuteText from '../../../components/shared/LastUpdatedMuteText'
+import ErrorAlert from '../../../components/shared/ErrorAlert'
 import ScrollToTop from '../../../layouts/PageLayout/components/ScrollToTop'
 import Loading from '../../../components/shared/Loading'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -12,7 +14,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 class ExperienceView extends Component {
   componentDidMount = () => {
     !this.props.languageData && this.props.fetchLanguagesAsync()
-    this.props.frameworkData.length <= 0 && this.props.fetchFrameworksAsync()
+    !this.props.frameworkData && this.props.fetchFrameworksAsync()
   }
   render = () => {
     const {
@@ -31,14 +33,29 @@ class ExperienceView extends Component {
       isQueryingFrameworks,
       frameworkSearchTerm,
       toggleSelectionAsync,
+      languageGeneralError,
+      frameworkGeneralError,
+      languageLastUpdated,
+      frameworkLastUpdated,
+      toggleHelper,
+      showHelper,
      } = this.props
     return (
       <div>
         <ScrollToTop />
         <Container>
           <Row>
+            <Col className='mt-3'>
+              <Alert color='info' isOpen={showHelper} toggle={toggleHelper}>
+                Tap or click on a card to highlight.
+                This will help me highlight information you care about (not yet implemented)
+              </Alert>
+            </Col>
+          </Row>
+          <Row>
             <Col sm='12'>
-              <div className='content'>
+              <div>
+                <ErrorAlert error={languageGeneralError} />
                 <h2>Languages</h2>
                 <ReactCSSTransitionGroup transitionName='animatedContent'
                   transitionEnterTimeout={500}
@@ -70,6 +87,14 @@ class ExperienceView extends Component {
                       </div>
                     )}
                 </ReactCSSTransitionGroup>
+              </div>
+            </Col>
+          </Row>
+          <LastUpdatedMuteText refreshTrigger={fetchLanguagesAsync} lastUpdated={languageLastUpdated} />
+          <Row>
+            <Col>
+              <div>
+                <ErrorAlert error={frameworkGeneralError} />
                 <h2>Frameworks</h2>
                 <ReactCSSTransitionGroup transitionName='animatedContent'
                   transitionEnterTimeout={500}
@@ -104,11 +129,8 @@ class ExperienceView extends Component {
               </div>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <PaginationItems prevLink='/' nextLink='/interests' />
-            </Col>
-          </Row>
+          <LastUpdatedMuteText refreshTrigger={fetchFrameworksAsync} lastUpdated={frameworkLastUpdated} />
+          <PaginationItems prevLink='/' nextLink='/interests' />
         </Container>
       </div>
     )
@@ -131,6 +153,12 @@ ExperienceView.propTypes = {
   filteredFrameworkData: cardItemPropType,
   frameworkSearchTerm: PropTypes.string,
   toggleSelectionAsync: PropTypes.func.isRequired,
+  languageGeneralError: PropTypes.object,
+  frameworkGeneralError: PropTypes.object,
+  languageLastUpdated: PropTypes.number,
+  frameworkLastUpdated: PropTypes.number,
+  toggleHelper: PropTypes.func,
+  showHelper: PropTypes.bool,
 }
 
 ExperienceView.defaultProps = {

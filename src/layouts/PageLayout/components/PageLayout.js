@@ -14,7 +14,7 @@ export class PageLayout extends Component {
     this.props.submitName(this.state.inputName)
   }
   render = () => {
-    const { isOpen, heroBackground, heroText, toggle, toggleOnNavClick, children, pathName, name, } = this.props
+    const { isOpen, heroBackground, heroText, toggle, toggleOnNavClick, children, pathName, name, clearName, } = this.props
     return (
       <div>
         <NavigationBar isOpen={isOpen} toggle={toggle} toggleOnNavClick={toggleOnNavClick} />
@@ -49,7 +49,7 @@ export class PageLayout extends Component {
                   <Container className='name-prompt'>
                     <Row>
                       <Col>
-                        <h2 className='inverse text-center'>Hello {name}</h2>
+                        <h2 onClick={clearName} className='inverse text-center'>Hello {name}</h2>
                       </Col>
                     </Row>
                   </Container>
@@ -74,6 +74,7 @@ PageLayout.propTypes = {
   name: PropTypes.string,
   submitName: PropTypes.func.isRequired,
   toggleOnNavClick: PropTypes.func.isRequired,
+  clearName: PropTypes.func.isRequired,
 }
 
 PageLayout.defaultProps = {

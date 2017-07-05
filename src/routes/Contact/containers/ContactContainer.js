@@ -11,6 +11,8 @@ const mapStateToProps = (state) => {
     data: state.contactContent.data,
     isFetching: state.contactContent.isFetching,
     name: state.layout.name,
+    error: state.contactContent.error,
+    lastUpdated: state.contactContent.lastUpdated,
   }
   const group = []
   if (state.highlightedExperiences) {
