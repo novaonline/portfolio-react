@@ -16,7 +16,12 @@ import PageLayout from '../components/PageLayout'
 // HERO Mappers
 // ------------------------------------
 const HERO_MAPPERS = {
-  '/': { image: 'https://homepage.usask.ca/~eeq488/images/victoria-bridge.jpg', text: 'Introduction' },
+  '/': {
+    image: 'https://homepage.usask.ca/~eeq488/images/victoria-bridge.jpg',
+    headerImage: 'https://homepage.usask.ca/~eeq488/images/me_outside_cropped.jpg',
+    headerImageClass: 'img-thumbnail main-selfie',
+    text: 'Introduction',
+  },
   '/interests': { image: 'https://homepage.usask.ca/~eeq488/images/storm-mirror.jpg', text: 'Interests' },
   '/education': { image: 'https://homepage.usask.ca/~eeq488/images/salty-bets.jpg', text: 'Education' },
   '/experiences': { image: 'https://homepage.usask.ca/~eeq488/images/storm.jpg', text: 'Experiences' },
@@ -34,7 +39,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state) => ({
   isOpen: state.layout.isOpen,
   heroBackground: HERO_MAPPERS[state.location.pathname].image,
-  heroText: HERO_MAPPERS[state.location.pathname].text,
+  heroHeader: HERO_MAPPERS[state.location.pathname],
   pathName: state.location.pathname,
   name: state.layout.name,
 })

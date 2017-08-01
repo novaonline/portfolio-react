@@ -15,7 +15,7 @@ export class PageLayout extends Component {
     this.props.submitName(this.state.inputName)
   }
   render = () => {
-    const { isOpen, heroBackground, heroText, toggle,
+    const { isOpen, heroBackground, heroHeader, toggle,
       toggleOnNavClick, children, pathName, name, clearName, } = this.props
     return (
       <div>
@@ -26,9 +26,17 @@ export class PageLayout extends Component {
               <span onClick={clearFromLocalStorage} role='button'>Reset All</span>
             </div>
             <div className='hero-content'>
-              <h1 className='hero-header inverse text-center'>
-                {heroText}
-              </h1>
+              {heroHeader.headerImage && (
+                <div className='hero-header text-center image'>
+                  <img src={heroHeader.headerImage} className={heroHeader.headerImageClass} />
+                </div>
+              )}
+              {
+                !heroHeader.headerImage && (
+                  <h1 className='hero-header inverse text-center'>
+                    {heroHeader.text}
+                  </h1>
+                )}
               <ReactCSSTransitionGroup transitionName='namePrompt'
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={-1}>
@@ -72,7 +80,7 @@ export class PageLayout extends Component {
 PageLayout.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   heroBackground: PropTypes.string.isRequired,
-  heroText: PropTypes.string.isRequired,
+  heroHeader: PropTypes.object,
   toggle: PropTypes.func.isRequired,
   children: PropTypes.node,
   pathName: PropTypes.string.isRequired,

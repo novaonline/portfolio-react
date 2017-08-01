@@ -123,3 +123,13 @@ h2{
   opacity: .50;
   transition: opacity 0.2s ease
 }
+
+img.main-selfie {
+	margin: 0 auto;
+	width: 20%;
+	border-radius: 50%;
+}
+
+.hero .hero-header.image img {
+  margin-top: -35px;
+}
