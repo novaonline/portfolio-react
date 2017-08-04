@@ -67,7 +67,6 @@ const mapStateToProps = (state) => {
       const framework = state.frameworks.data[key]
       // eslint-disable-next-line no-unneeded-ternary
       framework.isSelected = state.highlightedExperiences.data[`${framework.id}_Frameworks`] ? true : false
-      framework.info.imageUrl = SvgMapping[`${framework.id}_Frameworks`]
       return framework
     })
   }
@@ -76,7 +75,6 @@ const mapStateToProps = (state) => {
       const framework = state.frameworks.data[key]
       // eslint-disable-next-line no-unneeded-ternary
       framework.isSelected = state.highlightedExperiences.data[`${framework.id}_Frameworks`] ? true : false
-      framework.info.imageUrl = SvgMapping[`${framework.id}_Frameworks`]
       return framework
     })
   }
