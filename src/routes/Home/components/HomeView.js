@@ -11,12 +11,20 @@ export const HomeView = () => (
       <Row>
         <Col sm='12'>
           <section className='content'>
-            <h2>Hello, my name is Emmanuel</h2>
+            <h2>Hello, I'm Emmanuel Quagraine</h2>
             <p>
-              Here is a React project. As you can tell it looks similar to my homepage.
-              Both talk to the same api, but handle the data differently.
+              This is a React project. You'll notice that the styling
+              looks very similar to the old version of this page.
+              The biggest difference is how the content is managed.
+              When a page is loaded for the first time, the content is fetched and stored locally on your device.
+              The content will only update when a refresh request is triggered by the user.
+              It has been setup this way because of my infrequent content updates.
+              Every page (minus this one) will have muted text that have the date the content was last updated.
+              Click on the muted text to refresh.
+            </p>
+            <p>
               This project focuses on making the portfolio interactive.
-              At the end of this project, I'd like visitors to be presented with data they only care about.
+              When this project is complete, I'd like visitors to be presented with data they only care about.
               What you see so far is just the start.
             </p>
             <p>

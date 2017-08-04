@@ -6,24 +6,35 @@ import PropTypes from 'prop-types'
 
 const PaginationItems = ({ prevLink, nextLink }) => {
   return (
-    <Row>
-      <Col>
-        <Pagination className='justify-content-center' size='lg'>
-          {prevLink && (
-            <PaginationItem>
-              <PaginationLink disabled={!prevLink} to={prevLink} tag={Link} previous />
+    <Pagination
+      className='justify-content-center' size='md'>
+      {prevLink && (
+      <PaginationItem
+        style={
+        {
+          position: 'absolute',
+          bottom: 10,
+          left: 0,
+        }}
+          >
+        <PaginationLink disabled={!prevLink} to={prevLink} tag={Link} previous />
+      </PaginationItem>
+        )}
+      {
+          nextLink && (
+            <PaginationItem
+              style={
+              {
+                position: 'absolute',
+                bottom: 10,
+                right: 0,
+              }}
+            >
+              <PaginationLink disabled={!nextLink} to={nextLink} tag={Link} next />
             </PaginationItem>
-          )}
-          {
-            nextLink && (
-              <PaginationItem>
-                <PaginationLink disabled={!nextLink} to={nextLink} tag={Link} next />
-              </PaginationItem>
-            )
-          }
-        </Pagination>
-      </Col>
-    </Row>
+          )
+        }
+    </Pagination>
   )
 }
 

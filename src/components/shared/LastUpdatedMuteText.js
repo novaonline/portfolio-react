@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Row, Col } from 'reactstrap'
 const LastUpdatedMuteText = ({ lastUpdated, refreshTrigger }) => {
   return (
-    <Row className='mb-3'>
+    <Row className='mb-5 pb-3'>
       <Col>
         <small
           role='button'
